@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
 
     implementation(project(":shimmyy"))
-//    implementation("com.github.vikram-rathod:ShimmyApp:v1.0.0")
+//    implementation("com.github.vikram-rathod:ShimmyApp:1.0.1")
 
 
     testImplementation(libs.junit)

@@ -38,8 +38,6 @@ android {
         dataBinding = true
         compose = true
     }
-    buildToolsVersion = "36.1.0 rc1"
-    ndkVersion = "29.0.14206865"
 }
 afterEvaluate {
     publishing {

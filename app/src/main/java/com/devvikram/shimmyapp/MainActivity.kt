@@ -34,7 +34,6 @@ class MainActivity : ComponentActivity() {
             ShimmyAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.fillMaxSize()) {
-
                         val state by viewModel.uiState.collectAsState()
                         StateLayout(
                             state = state,
