@@ -41,6 +41,20 @@ android {
     buildToolsVersion = "36.1.0 rc1"
     ndkVersion = "29.0.14206865"
 }
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.github.vikram-rathod"
+                artifactId = "shimmyy"
+                version = "1.0.0"
+
+                // Use the release AAR artifact
+                artifact("$buildDir/outputs/aar/${project.name}-release.aar")
+            }
+        }
+    }
+}
 
 dependencies {
 
