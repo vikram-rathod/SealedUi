@@ -55,7 +55,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.vikram-rathod"
                 artifactId = "ShimmyApp"
-                version = "1.0.4"
+                version = "1.0.5"
 
                 // Use the release AAR artifact
                 artifact("$buildDir/outputs/aar/${project.name}-release.aar")
