@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ShimmyApp"
+rootProject.name = "sealedui"
 include(":app")
 include(":shimmy")
-include(":shimmyy")
+include(":sealedui")

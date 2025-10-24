@@ -1,6 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    `maven-publish`
     alias(libs.plugins.kotlin.compose)
 }
 
@@ -9,13 +10,10 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.devvikram.sealedui"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -27,42 +25,72 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+
+        // Toolchain for consistent Java version
+        javaToolchains.compilerFor {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
     }
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs += listOf("-Xjvm-default=all")
+
     }
+
     buildFeatures {
-        compose = true
         viewBinding = true
+        dataBinding = true
+        compose = true
+    }
+    buildToolsVersion = "36.1.0"
+
+}
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.github.vikram-rathod"
+                artifactId = "sealedui"
+                version = "1.0.7"
+
+                // Use the release AAR artifact
+                from(components["release"])
+            }
+        }
     }
 }
 
 dependencies {
 
+    // Core Android
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+
+    // Compose BOM (align all Compose versions automatically)
     implementation(platform(libs.androidx.compose.bom))
+
+    // Compose UI libraries
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material.icons.extended)
 
-    implementation(project(":sealedui"))
-//    implementation("com.github.vikram-rathod:ShimmyApp:1.0.1")
 
 
+
+    // Debug tools
+    debugImplementation(libs.androidx.ui.tooling)
+
+
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-
-
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }
