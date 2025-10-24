@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     `maven-publish`
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -34,6 +35,8 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
+        compose = true
     }
     buildToolsVersion = "36.1.0 rc1"
     ndkVersion = "29.0.14206865"
@@ -53,9 +56,15 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material.icons.extended)
+
+
+
 
     // Debug tools
     debugImplementation(libs.androidx.ui.tooling)
+
+
 
     // Testing
     testImplementation(libs.junit)

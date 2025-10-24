@@ -1,55 +1,78 @@
 package com.devvikram.shimmyy
 
-
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material.icons.filled.Inbox
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BoxScope.ShimmerBox(
+fun <T> StateLayout(
+    state: UiState<T>,
     modifier: Modifier = Modifier,
-    width: Int = 200,
-    height: Int = 20
+    onRetry: (() -> Unit)? = null,
+    errorContent: (@Composable (throwable: Throwable?, message: String?, onRetry: (() -> Unit)?) -> Unit)? = null,
+    emptyContent: (@Composable (message: String?) -> Unit)? = null,
+    loadingContent: (@Composable () -> Unit)? = null,
+    content: @Composable (T) -> Unit
 ) {
-    // Shimmer animation
-    val infiniteTransition = rememberInfiniteTransition()
-    val alphaAnim = infiniteTransition.animateFloat(
-        initialValue = 0.3f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        when (state) {
+            is UiState.Loading -> {
+                (loadingContent ?: { DefaultLoading() })()
+            }
 
-    Box(
-        modifier = modifier
-            .size(width.dp, height.dp)
-            .alpha(alphaAnim.value)
-            .background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
-                        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
-                        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
-                    )
-                )
-            )
-    )
+            is UiState.Empty -> {
+                (emptyContent ?: { DefaultEmpty(state.message) })(state.message)
+            }
+
+            is UiState.Error -> {
+                (errorContent ?: { throwable, message, retry ->
+                    DefaultError(message ?: throwable?.localizedMessage, retry)
+                })(state.throwable, state.message, onRetry)
+            }
+
+            is UiState.Success -> {
+                content(state.data)
+            }
+        }
+    }
 }
 
+// ✅ Default composables
+@Composable
+private fun DefaultLoading() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        CircularProgressIndicator()
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(text = "Loading...", style = MaterialTheme.typography.bodyMedium)
+    }
+}
 
+@Composable
+private fun DefaultEmpty(message: String?) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Icon(Icons.Default.Inbox, contentDescription = null, modifier = Modifier.size(56.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = message ?: "Nothing to show", style = MaterialTheme.typography.bodyMedium)
+    }
+}
 
+@Composable
+private fun DefaultError(message: String?, onRetry: (() -> Unit)?) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Icon(Icons.Default.ErrorOutline, contentDescription = null, modifier = Modifier.size(56.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = message ?: "Something went wrong", style = MaterialTheme.typography.bodyMedium)
+        if (onRetry != null) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(onClick = onRetry) {
+                Text("Retry")
+            }
+        }
+    }
+}
