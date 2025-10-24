@@ -25,12 +25,20 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+
+        // Toolchain for consistent Java version
+        javaToolchains.compilerFor {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
     }
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs += listOf("-Xjvm-default=all")
+
     }
 
     buildFeatures {
@@ -47,7 +55,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.vikram-rathod"
                 artifactId = "ShimmyApp"
-                version = "1.0.3"
+                version = "1.0.4"
 
                 // Use the release AAR artifact
                 artifact("$buildDir/outputs/aar/${project.name}-release.aar")
