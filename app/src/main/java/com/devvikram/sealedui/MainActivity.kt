@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.devvikram.otpviewer.OtpView
 import com.devvikram.sealedui.ui.theme.ShimmyAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +35,14 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         val state by viewModel.uiState.collectAsState()
+
+
+                        OtpView(
+                            otpText = "123487",
+                            modifier = Modifier.padding(innerPadding)
+                        )
+
+
                         StateLayout(
                             state = state,
                             modifier = Modifier.padding(innerPadding),

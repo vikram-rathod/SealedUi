@@ -53,8 +53,9 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
 
     implementation(project(":sealedui"))
+    implementation(project(":otpviewer"))
 //    implementation("com.github.vikram-rathod:ShimmyApp:1.0.1")
-
+//    implementation("com.github.vikram-rathod:otpviewer:1.0.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

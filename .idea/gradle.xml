@@ -11,8 +11,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/otpviewer" />
+            <option value="$PROJECT_DIR$/sealedui" />
             <option value="$PROJECT_DIR$/shimmy" />
-            <option value="$PROJECT_DIR$/shimmyy" />
           </set>
         </option>
       </GradleProjectSettings>

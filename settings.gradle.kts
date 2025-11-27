@@ -23,3 +23,4 @@ rootProject.name = "sealedui"
 include(":app")
 include(":shimmy")
 include(":sealedui")
+include(":otpviewer")
