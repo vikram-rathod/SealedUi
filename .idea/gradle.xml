@@ -10,9 +10,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/alogger" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/sealedui" />
             <option value="$PROJECT_DIR$/shimmy" />
-            <option value="$PROJECT_DIR$/shimmyy" />
           </set>
         </option>
       </GradleProjectSettings>
