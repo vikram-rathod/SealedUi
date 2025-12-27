@@ -42,7 +42,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.vikram-rathod"
                 artifactId = "alogger"
-                version = "1.0.1"
+                version = "1.0.8"
 
                 // Use the release AAR artifact
                 from(components["release"])

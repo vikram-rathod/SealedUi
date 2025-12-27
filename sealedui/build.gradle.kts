@@ -55,7 +55,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.vikram-rathod"
                 artifactId = "sealedui"
-                version = "1.0.7"
+                version = "1.0.8"
 
                 // Use the release AAR artifact
                 from(components["release"])

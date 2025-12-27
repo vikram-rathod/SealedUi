@@ -55,7 +55,8 @@ dependencies {
     implementation(project(":sealedui"))
     implementation(project(":alogger"))
 //    implementation("com.github.vikram-rathod:ShimmyApp:1.0.1")
-    implementation("com.github.devvikram:alogger:v1.0.0")
+//    implementation("com.github.vikram-rathod:SealedUi:1.0.8")
+//    implementation("com.github.devvikram:alogger:v1.0.8")
 
 
 
